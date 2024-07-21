@@ -10,8 +10,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     private float timer = 0f;
 
-    private int level = Score.level;
+    private int level;
 
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -27,12 +28,10 @@ public class ObstacleSpawner : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnPlayerDeath += StopGameOnPlayerDeath;
+        EventManager.OnLevelIncrease += GetLevel;
     }
 
-    private void OnDisable()
-    {
-        EventManager.OnPlayerDeath -= StopGameOnPlayerDeath;
-    }
+    
 
     private void SpawnRate()
     {
@@ -55,6 +54,12 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void GetLevel(int level)
+    {
+        this.level = level;
+    }
+
+
     private void SpawnObstacle()
     {
         float highestPoint = transform.position.y + heightOffset;
@@ -67,5 +72,11 @@ public class ObstacleSpawner : MonoBehaviour
     private void StopGameOnPlayerDeath()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnLevelIncrease -= GetLevel;
+        EventManager.OnPlayerDeath -= StopGameOnPlayerDeath;
     }
 }

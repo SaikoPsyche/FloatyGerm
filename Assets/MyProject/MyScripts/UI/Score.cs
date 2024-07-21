@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Score : MonoBehaviour
 {
@@ -14,10 +15,17 @@ public class Score : MonoBehaviour
     [SerializeField] private int scoreCap = 15;
     [SerializeField] private int scoreMultiplier = 10;
 
-    public static int level = 1;
-    public static int highScore;
-    public static string scoreName = "score";
+    private static int level = 1;
+    private static int highScore;
+    private static string scoreName = "score";
 
+    public static int Level
+    {
+        get { return level;}
+        set { level = value; }
+    }
+
+    
     private void Start()
     {
         scoreText.text = $"Score: {score}";
@@ -33,13 +41,13 @@ public class Score : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnScorePoint += ScorePoint;
-        EventManager.OnPlayerDeath += HighScore;
+        EventManager.OnPlayerDeath += SaveHighScore;
     }
 
     private void OnDisable()
     {
         EventManager.OnScorePoint -= ScorePoint;
-        EventManager.OnPlayerDeath -= HighScore;
+        EventManager.OnPlayerDeath -= SaveHighScore;
     }
 
     private void ScorePoint()
@@ -54,13 +62,13 @@ public class Score : MonoBehaviour
         {
             level++;
             // levelText.text = $"Level: {level}";
-            EventManager.onLevelIncrease();
+            EventManager.onLevelIncrease(level);
             scoreCap += scoreMultiplier;
             scoreMultiplier++;
         }
     }
 
-    private void HighScore()
+    private void SaveHighScore()
     {
         // Display date and score
         if (score > highScore) // Save score if higher than previous highscore

@@ -33,7 +33,7 @@ public class SoundFX : MonoBehaviour
         touchSound.Play();
     }
 
-    private void LevelUpSound()
+    private void LevelUpSound(int level)
     {
         levelUpSound.Play();
     }

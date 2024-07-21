@@ -7,11 +7,9 @@ public class ObstacleMovement : MonoBehaviour
     [SerializeField] private float boundary = -25f;
     [SerializeField] private float speedMultiplier = 0.5f;
 
-    private int level = Score.level;
-
     private void Start()
     {
-        LevelIncrease();
+        EventManager.OnLevelIncrease += LevelIncrease;
     }
 
     void Update()
@@ -24,7 +22,7 @@ public class ObstacleMovement : MonoBehaviour
         }
     }
 
-    private void LevelIncrease()
+    private void LevelIncrease(int level)
     {
         moveSpeed += speedMultiplier * (level - 1);
     }
