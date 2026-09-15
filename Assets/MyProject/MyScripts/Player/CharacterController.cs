@@ -63,7 +63,7 @@ public class CharacterController : MonoBehaviour
         if (context.performed)
         {
                 isJumping = false;
-                rb.velocity = Vector2.up * jumpHeight;
+                rb.linearVelocity = Vector2.up * jumpHeight;
         }
     }
 }

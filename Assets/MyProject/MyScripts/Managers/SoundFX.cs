@@ -1,5 +1,14 @@
 using UnityEngine;
 
+// Updated 2026-09-14 by Claude (Anthropic AI assistant):
+// - Added a duplicate-instance guard in Awake() so a second SoundFX in the
+//   scene destroys itself instead of silently overwriting "instance".
+// - Left DontDestroyOnLoad out deliberately, same reasoning as
+//   GameManager: whether this should persist across scene reloads is a
+//   design decision, not a bug fix.
+// - Left "deathSound" as-is (unused in this file, and public unlike the
+//   other fields) rather than guessing at its intended purpose - it may
+//   be referenced from a script outside this review.
 public class SoundFX : MonoBehaviour
 {
     public static SoundFX instance;
@@ -11,6 +20,12 @@ public class SoundFX : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
     }
 
