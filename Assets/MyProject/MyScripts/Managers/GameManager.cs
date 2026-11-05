@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 //   instead of assuming activeScene + 1 is always valid.
 // - QuitGame() now stops Play Mode in the Editor instead of silently doing
 //   nothing (Application.Quit() is a no-op in the Editor).
-// - Left DontDestroyOnLoad out deliberately: whether this GameManager
-//   should persist across scene loads is an architecture decision, not a
-//   bug fix, and adding it without a duplicate-instance guard could cause
-//   multiple GameManagers to pile up.
 public class GameManager : MonoBehaviour
 {
     private int activeScene;
